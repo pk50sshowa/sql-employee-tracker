@@ -31,35 +31,63 @@ async function openingMenu() {
           break;
 
         case 'View all roles':
-          viewDepartments();
+          viewRoles();
           break;
           
         case 'View all employees':
-          viewDepartments();
+          viewEmployees();
           break;
         
         case 'Add a department':
-          viewDepartments();
+          addDepartment();
           break;
 
         case 'Add a role':
-          viewDepartments();
+          addRole();
           break;
   
         case 'Add an employee':
-          viewDepartments();
+          addEmployee();
           break;
             
         case 'Update an employee role':
-          viewDepartments();
+          updateEmployeeRole();
           break;
           
         case 'Quit':
           db.end();
           return;  
       }
-    })
+    });
 }
+
+function viewDepartments() {
+
+};
+
+function viewRoles() {
+  
+};
+
+function viewEmployees() {
+  
+};
+
+function addDepartment() {
+  
+};
+
+function addRole() {
+  
+};
+
+function addEmployee() {
+  
+};
+
+function updateEmployeeRole() {
+  
+};
 
 // async function queryMyDatabase() {
 //     let result = await db.query("SELECT * FROM DEPARTMENT")
