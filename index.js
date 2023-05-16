@@ -9,7 +9,7 @@ async function openingMenu() {
   );
 
   inquirer
-    .createPromptModule({
+    .prompt({
       name: 'action',
       type: 'list',
       message: 'Please select a choice from the following list.',
@@ -62,16 +62,37 @@ async function openingMenu() {
 }
 
 function viewDepartments() {
-
-};
+  db.query('SELECT * FROM department', (err, results) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.table(results);
+      openingMenu();
+    }
+  });
+}
 
 function viewRoles() {
-  
-};
+  db.query('SELECT * FROM role', (err, results) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.table(results);
+      openingMenu();
+    }
+  });
+}
 
 function viewEmployees() {
-  
-};
+  db.query('SELECT * FROM employee', (err, results) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.table(results);
+      openingMenu();
+    }
+  });
+}
 
 function addDepartment() {
   
