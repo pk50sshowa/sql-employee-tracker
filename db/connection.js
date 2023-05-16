@@ -1,3 +1,5 @@
+// Connection file to link to the MySQL database
+
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({

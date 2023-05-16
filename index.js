@@ -1,8 +1,10 @@
+// Base variables for main dependencies
 const util = require('util');
 const inquirer = require('inquirer');
 const db = require('./db/connection');
 db.query = util.promisify(db.query);
 
+// Opening function that is the gateway to all of the other functions
 async function openingMenu() {
   console.table(
     "\nE-M-P-L-O-Y-E-E T-R-A-C-K-E-R\n"
@@ -61,6 +63,7 @@ async function openingMenu() {
     });
 }
 
+// View existing departments
 function viewDepartments() {
   db.query('SELECT * FROM department', (err, results) => {
     if (err) {
@@ -72,6 +75,7 @@ function viewDepartments() {
   });
 }
 
+// View existing roles
 function viewRoles() {
   db.query('SELECT * FROM role', (err, results) => {
     if (err) {
@@ -83,6 +87,7 @@ function viewRoles() {
   });
 }
 
+// View existing employees
 function viewEmployees() {
   db.query('SELECT * FROM employee', (err, results) => {
     if (err) {
@@ -94,6 +99,7 @@ function viewEmployees() {
   });
 }
 
+// Add a new department
 function addDepartment() {
   inquirer
     .prompt({
@@ -117,6 +123,7 @@ function addDepartment() {
     });
 };
 
+// Add a new role
 function addRole() {
   db.query('SELECT * FROM department', (err, department) => {
     if (err) {
@@ -163,6 +170,7 @@ function addRole() {
   });
 };
 
+// Add a new employeee
 function addEmployee() {
   db.query('SELECT * FROM role', (err, role) => {
     if (err) {
@@ -223,10 +231,95 @@ function addEmployee() {
   });
 };
 
+// Update an employee's role
 function updateEmployeeRole() {
-  
+  db.query('SELECT * FROM role', (err, role) => {
+    if (err) {
+      console.error(err);
+      openingMenu();
+    } else {
+      db.query('SELECT * FROM employee', (err, managers) => {
+        if (err) {
+          console.error(err);
+          openingMenu();
+        } else {
+          inquirer
+            .prompt([
+              {
+                name: 'first_name',
+                type: 'input',
+                message: 'Enter the employee\'s first name:',
+              },
+              {
+                name: 'last_name',
+                type: 'input',
+                message: 'Enter the employee\'s last name:',
+              },
+              {
+                name: 'role',
+                type: 'list',
+                message: 'Select the employee\'s role:',
+                choices: role.map((role) => role.title),
+              },
+              {
+                name: 'manager',
+                type: 'list',
+                message: 'Select the employee\'s manager:',
+                choices: managers.map((manager) => `${manager.first_name} ${manager.last_name}`),
+              },
+            ])
+            .then((answer) => {
+              const roleId = role.find((role) => role.title === answer.role).id;
+              
+              const managerId = managers.find((manager) => `${manager.first_name} ${manager.last_name}` === answer.manager).id;
+
+              db.query(
+                'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+                [answer.first_name, answer.last_name, roleId, managerId],
+                (err) => {
+                  if (err) {
+                    console.error(err);
+                  } else {
+                    console.log('Employee added successfully!');
+                  }
+                  openingMenu();
+                }
+              );
+            });
+        }
+      });
+    }
+  });
 };
 
+// Test code for possible async function conversion
+
+// async function addDepartmentAsync () {
+//   const answers = await inquirer.prompt([{
+//     message: 'What is the department name?',
+//     name: 'New Department',
+//     type: 'input'
+//   }])
+
+//   console.log(answers);
+
+//   db.query('INSERT INTO department(?) VALUES(?)', ['name', answers.newDep])
+//   .then(results => {
+//     console.log('Department added.');
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
+
+//   // try {
+//   //   const results = await db.query('INSERT INTO department(?) VALUES (?)', ['name', answers.newDep])
+//   // }
+//   // catch (err) {
+//   //   console.log(err);
+//   // }
+// };
+
+// Code block to connect to the database, the file is linked with connection.js
 db.connect(err => {
   if (err) throw err;
   console.log('Database connected.');
