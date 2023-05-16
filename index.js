@@ -164,28 +164,68 @@ function addRole() {
 };
 
 function addEmployee() {
-  
+  db.query('SELECT * FROM role', (err, role) => {
+    if (err) {
+      console.error(err);
+      openingMenu();
+    } else {
+      db.query('SELECT * FROM employee', (err, managers) => {
+        if (err) {
+          console.error(err);
+          openingMenu();
+        } else {
+          inquirer
+            .prompt([
+              {
+                name: 'first_name',
+                type: 'input',
+                message: 'Enter the employee\'s first name:',
+              },
+              {
+                name: 'last_name',
+                type: 'input',
+                message: 'Enter the employee\'s last name:',
+              },
+              {
+                name: 'role',
+                type: 'list',
+                message: 'Select the employee\'s role:',
+                choices: role.map((role) => role.title),
+              },
+              {
+                name: 'manager',
+                type: 'list',
+                message: 'Select the employee\'s manager:',
+                choices: managers.map((manager) => `${manager.first_name} ${manager.last_name}`),
+              },
+            ])
+            .then((answer) => {
+              const roleId = role.find((role) => role.title === answer.role).id;
+              
+              const managerId = managers.find((manager) => `${manager.first_name} ${manager.last_name}` === answer.manager).id;
+
+              db.query(
+                'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+                [answer.first_name, answer.last_name, roleId, managerId],
+                (err) => {
+                  if (err) {
+                    console.error(err);
+                  } else {
+                    console.log('Employee added successfully!');
+                  }
+                  openingMenu();
+                }
+              );
+            });
+        }
+      });
+    }
+  });
 };
 
 function updateEmployeeRole() {
   
 };
-
-// async function queryMyDatabase() {
-//     let result = await db.query("SELECT * FROM DEPARTMENT")
-//     console.log(result)
-//   }
-
-// let rolesArr = await db.query("select id as value, title as name from role");
-
-// const answers = await inquirer.prompt([
-// {
-//     "type": "list",
-//     "name": "roleId",
-//     "message": "what is the new role?",
-//     "choices": rolesArr
-//  }])
-//  ;
 
 db.connect(err => {
   if (err) throw err;
