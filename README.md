@@ -6,6 +6,9 @@
 ## [DESCRIPTION](#description)
 This is a command line function that runs through node and MySQL2, which extracts data from a database about employees and their jobs and salaries, which can be modified upon a user's request.
 
+## WALKTHROUGH VIDEO
+Here is the link for the walkthrough video: https://drive.google.com/file/d/1hVJX3dGsi_H7kmF9oLQb6cq65dvPvF9h/view
+
 ## TABLE OF CONTENTS
 
 * [INSTALLATION](#installation)
@@ -38,6 +41,6 @@ Run through each function to test its functionality, and then add or modify data
 ## [QUESTIONS](#questions)
 If you have any questions, please feel free to reach out to the author of this application at the following GitHub page and email address.
 
-https://github.com/pk50sshowa
+Repository location: https://github.com/pk50sshowa/sql-employee-tracker/
 
 [paul.koehler@gmail.com](paul.koehler@gmail.com)
