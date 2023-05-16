@@ -95,7 +95,26 @@ function viewEmployees() {
 }
 
 function addDepartment() {
-  
+  inquirer
+    .prompt({
+      name: 'name',
+      type: 'input',
+      message: 'Enter the name of the department:',
+    })
+    .then((answer) => {
+      db.query(
+        'INSERT INTO department (department_name) VALUES (?)',
+        [answer.name],
+        (err, results) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log('Department added successfully!');
+            openingMenu();
+          }
+        }
+      );
+    });
 };
 
 function addRole() {
