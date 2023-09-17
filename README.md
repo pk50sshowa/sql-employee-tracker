@@ -24,7 +24,7 @@ Here is the link for the walkthrough video: https://drive.google.com/file/d/1hVJ
 * [QUESTIONS](#questions)
 
 ## [INSTALLATION](#installation)
-Make sure to install node.js, inquirer (version 8.2.4) and MySQL2 before running the application. Also make sure to login to MySQL and run the schema.sql and seeds.sql files before launching the application, as this will reset and reseed the databases used in the application.
+Make sure to install Node.js, inquirer (version 8.2.4) and MySQL2 before running the application. Make sure to login to MySQL, and run the schema.sql and seeds.sql files before launching the application. This will reset and reseed the databases used in the application.
 
 ## [USAGE](#usage)
 Run the application with the command "node index.js" (no quotes) and follow the prompts shown by the command line.
